@@ -1,4 +1,15 @@
 /* These styles are generated from project.scss. */
+@media screen and (min-width: 601px) {
+body {
+        padding-top: 55px;
+    }
+}    
+
+@media screen and (max-width: 600px) {
+body {
+        padding-top: 100px;
+    }
+}    
 
 .alert-debug {
   color: black;
@@ -10,4 +21,8 @@
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7;
+}
+
+.main {
+  min-height:80vh;
 }

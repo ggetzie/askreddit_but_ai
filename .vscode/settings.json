@@ -2,6 +2,8 @@
     "cSpell.ignoreWords": [
         "arai",
         "arai db",
-        "db"
-    ]
+        "db",
+        "yyyymmdd"
+    ],
+    "python.pythonPath": "/usr/local/src/env/arai/bin/python"
 }
