@@ -3,6 +3,16 @@
 body {
         padding-top: 55px;
     }
+
+  #question_tweet {
+    height: 80vh; 
+    overflow-y: hidden;
+  }
+
+  #questions {
+    height: 100%; 
+    overflow-y: auto;
+  }
 }    
 
 @media screen and (max-width: 600px) {
@@ -26,3 +36,4 @@ body {
 .main {
   min-height:80vh;
 }
+

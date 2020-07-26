@@ -17,6 +17,9 @@ class TrainingQ(models.Model):
         self.slug = slugify(self.text)
         return super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.text[:20]
+
 
 class GeneratedQ(models.Model):
     text = models.CharField("Text",
@@ -33,9 +36,12 @@ class GeneratedQ(models.Model):
                                                        day=1)) 
     tweeted = models.BooleanField("Tweeted", 
                                   default=False)
-    votes = models.PositiveIntegerField("Votes", default=0)
+    votes = models.IntegerField("Votes", default=0)
 
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.text)
         return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.text[:20]

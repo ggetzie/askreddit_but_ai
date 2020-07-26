@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -19,6 +20,9 @@ class QuestionList(ListView):
                         
         qs = self.model.objects.filter(displayed=date)
         return qs
+
+def cast_vote(request):
+    return JsonResponse({"result": "ok"})
     
 
 
