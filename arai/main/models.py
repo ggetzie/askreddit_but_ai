@@ -38,6 +38,9 @@ class GeneratedQ(models.Model):
                                   default=False)
     votes = models.IntegerField("Votes", default=0)
 
+    class Meta:
+        ordering = ["-votes", "slug"]
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.text)

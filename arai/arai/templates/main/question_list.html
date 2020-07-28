@@ -8,17 +8,19 @@
 <div id="question_tweet" class="row">
     <div id="questions" class="col-md-8">
         {% for question in object_list %}
-        <div class="row mb-4 bg-light border border-dark rounded" style="max-width: 80%; margin: auto;">
+        <div class="row mb-4 border-top border-dark" style="max-width: 80%; margin: auto;">
             <div class="col-auto align-middle">
-                <form class="form-inline">
+                <form id="up{{ question.id }}" class="form-inline upvote vote-form" action="/vote/">
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
-                    <input type="submit" value="&#11014;" class="mt-1 mb-1">
+                    <input type="hidden" value="up" name="direction">
+                    <input type="submit" value="&#11014;" class="btn btn-sm btn-outline-dark mt-1 mb-1">
                 </form>
-                <form class="form-inline">
+                <form id="down{{ question.id }}" class="form-inline downvote vote-form" action="/vote/"> 
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
-                    <input type="submit" value="&#11015;" class="mt-1 mb-1">
+                    <input type="hidden" value="down" name="direction">
+                    <input type="submit" value="&#11015;" class="mt-1 mb-1 btn btn-sm btn-outline-dark">
                 </form>
             </div>
             <div class="col">
