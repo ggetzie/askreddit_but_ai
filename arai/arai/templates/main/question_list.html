@@ -8,15 +8,21 @@
 <div id="question_tweet" class="row">
     <div id="questions" class="col-md-8">
         {% for question in object_list %}
-        <div class="row mb-4 border-top border-dark" style="max-width: 80%; margin: auto;">
+        <div id="question{{ question.id }}" class="row mb-4 border-top border-dark neutral" style="max-width: 80%; margin: auto;">
             <div class="col-auto align-middle">
-                <form id="up{{ question.id }}" class="form-inline upvote vote-form" action="/vote/">
+                <form id="up{{ question.id }}" 
+                      class="form-inline upvote vote-form" 
+                      action="{% url 'main:cast_vote' %}" 
+                      method="POST">
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
                     <input type="hidden" value="up" name="direction">
                     <input type="submit" value="&#11014;" class="btn btn-sm btn-outline-dark mt-1 mb-1">
                 </form>
-                <form id="down{{ question.id }}" class="form-inline downvote vote-form" action="/vote/"> 
+                <form id="down{{ question.id }}" 
+                      class="form-inline downvote vote-form" 
+                      action="{% url 'main:cast_vote' %}"
+                      method="POST"> 
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
                     <input type="hidden" value="down" name="direction">
@@ -39,21 +45,15 @@
         <a class="twitter-timeline" href="https://twitter.com/AskredditButAI?ref_src=twsrc%5Etfw">Tweets by AskredditButAI</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 </div>
-{% comment %} 
-<ul class="list-group mb-5 w-60">
-    {% for question in object_list %}
-    <li class="list-group-item">
-        {{ question.text }}
-    </li>
-    {% empty %}
-    <li class="list-group-item">
-        No questions found for this date.
-    </li>
-    {% endfor %}
-</ul> {% endcomment %}
 
 {% if page_obj.paginator.num_pages > 1 %}
     {% include "main/pagination.html" %}
 {% endif %}
 
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    const vote_states = {{ vote_states|safe }};
+</script>
+{% endblock extra_js %}

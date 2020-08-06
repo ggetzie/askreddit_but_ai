@@ -26,6 +26,18 @@ body {
   min-height:80vh;
 }
 
+.upvoted form.upvote input[type=submit] {
+  background-color: orangered;
+}
+
+.downvoted form.downvote input[type=submit]{
+  background-color: powderblue;
+}
+
+.neutral form.vote-form input[type=submit] {
+  background-color: gray;
+}
+
 ////////////////////////////////
 		//Variables//
 ////////////////////////////////

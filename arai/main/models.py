@@ -36,11 +36,15 @@ class GeneratedQ(models.Model):
                                                        day=1)) 
     tweeted = models.BooleanField("Tweeted", 
                                   default=False)
+    tweet_time = models.DateTimeField("Time when Tweeted",
+                                      default=datetime.datetime(year=1970, 
+                                                                month=1, 
+                                                                day=1,
+                                                                tzinfo=datetime.timezone.utc)) 
     votes = models.IntegerField("Votes", default=0)
 
     class Meta:
-        ordering = ["-votes", "slug"]
-
+        ordering = ["slug"]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.text)

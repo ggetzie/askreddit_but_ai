@@ -18,5 +18,6 @@ register_converter(DateConverter, "yyyymmdd")
 
 urlpatterns = [
     path("", views.QuestionList.as_view(), name="home"),
-    path("<yyyymmdd:date>", views.QuestionList.as_view(), name="on_date")
+    path("<yyyymmdd:date>", views.QuestionList.as_view(), name="on_date"),
+    path("vote/", views.cast_vote, name="cast_vote"),
 ]
