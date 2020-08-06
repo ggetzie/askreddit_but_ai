@@ -26,16 +26,38 @@ body {
   min-height:80vh;
 }
 
+.vote-form input[type=submit] {
+  height: 14px;
+  width: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-repeat: no-repeat;
+  border: 0;
+}
+
 .upvoted form.upvote input[type=submit] {
-  background-color: orangered;
+  background: url("/static/images/upvote.png");
+}
+
+.upvoted form.downvote input[type=submit] {
+  background: url("/static/images/downneutral.png");
 }
 
 .downvoted form.downvote input[type=submit]{
-  background-color: powderblue;
+  background: url("/static/images/downvote.png");
 }
 
-.neutral form.vote-form input[type=submit] {
-  background-color: gray;
+.downvoted form.upvote input[type=submit]{
+  background: url("/static/images/upneutral.png");
+}
+
+.neutral form.upvote input[type=submit]{
+  background: url("/static/images/upneutral.png");
+}
+
+.neutral form.downvote input[type=submit] {
+  background: url("/static/images/downneutral.png");
 }
 
 ////////////////////////////////

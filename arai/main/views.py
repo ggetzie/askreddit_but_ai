@@ -51,16 +51,28 @@ def cast_vote(request):
     previous = vote_states.get(v_id, 0)
     if direction == "up":
         if previous == 1:
+            # remove existing upvote
             vote_states[v_id] = 0
             question.votes -= 1
+        elif previous == -1:
+            # replace existing upvote with a downvote
+            vote_states[v_id] = 1
+            question.votes += 2
         else:
+            # new upvote
             vote_states[v_id] = 1
             question.votes += 1
     elif direction == "down":
         if previous == -1:
+            # remove existing downvote
             vote_states[v_id] = 0
             question.votes += 1
+        elif previous == 1:
+            # replace existing upvote with a downvote
+            vote_states[v_id] = -1
+            question.votes -= 2
         else:
+            # new downvote
             vote_states[v_id] = -1
             question.votes -= 1
     else:

@@ -11,13 +11,14 @@
         <div id="question{{ question.id }}" class="row mb-4 border-top border-dark neutral" style="max-width: 80%; margin: auto;">
             <div class="col-auto align-middle">
                 <form id="up{{ question.id }}" 
-                      class="form-inline upvote vote-form" 
+                      class="form-inline upvote vote-form mb-3 mt-3" 
                       action="{% url 'main:cast_vote' %}" 
                       method="POST">
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
                     <input type="hidden" value="up" name="direction">
-                    <input type="submit" value="&#11014;" class="btn btn-sm btn-outline-dark mt-1 mb-1">
+                    {% comment %} <input type="submit" value="&#11014;" class="btn btn-sm btn-outline-dark mt-1 mb-1"> {% endcomment %}
+                    <input type="submit" value="">
                 </form>
                 <form id="down{{ question.id }}" 
                       class="form-inline downvote vote-form" 
@@ -26,7 +27,8 @@
                     {% csrf_token %}
                     <input type="hidden" value="{{ question.id }}" name="question_id">
                     <input type="hidden" value="down" name="direction">
-                    <input type="submit" value="&#11015;" class="mt-1 mb-1 btn btn-sm btn-outline-dark">
+                    {% comment %} <input type="submit" value="&#11015;" class="mt-1 mb-1 btn btn-sm btn-outline-dark"> {% endcomment %}
+                    <input type="submit" value="">
                 </form>
             </div>
             <div class="col">
