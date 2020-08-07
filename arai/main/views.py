@@ -28,6 +28,17 @@ class QuestionList(ListView):
         context["vote_states"] = json.dumps(self.request.session.get("vote_states", {}))
         return context
 
+class Archive(ListView):
+    model = GeneratedQ
+    paginate_by = 50
+    template_name = "main/archive.html"
+
+    def get_queryset(self):
+        oldest = datetime.date(year=1970, month=1, day=1)
+        qs = (GeneratedQ.objects.exclude(displayed=oldest)
+                                .order_by("-displayed").distinct("displayed"))
+        return qs
+
     
 @require_POST
 def cast_vote(request):

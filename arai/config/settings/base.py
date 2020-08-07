@@ -143,6 +143,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# SESSIONS
+# ------------------------------------------------------------------------------
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 # STATIC
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -260,6 +264,22 @@ LOGGING = {
     "root": {"level": "INFO", "handlers": ["console"]},
 }
 
+# CACHES
+# ------------------------------------------------------------------------------
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # Mimicing memcache behavior.
+            # http://jazzband.github.io/django-redis/latest/#_memcached_exceptions_behavior
+            "IGNORE_EXCEPTIONS": True,
+        },
+        "KEY_PREFIX": "arai"
+    }
+}
+
 
 # django-allauth
 # ------------------------------------------------------------------------------
@@ -278,3 +298,8 @@ SOCIALACCOUNT_ADAPTER = "arai.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# Twitter Api keys
+ARAI_TWITTER_API_KEY = env("arai_Twitter_API_key")
+ARAI_TWITTER_API_SECRET_KEY = env("arai_Twitter_API_secret_key")
+ARAI_TWITTER_ACCESS_TOKEN = env("arai_Twitter_access_token")
+ARAI_TWITTER_ACCESS_TOKEN_SECRET = env("arai_Twitter_access_token_secret")

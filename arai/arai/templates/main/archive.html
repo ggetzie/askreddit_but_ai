@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+    Click on a link below to view questions from that day
+</p>
+<ul class="list-group w-50">
+    {% for object in object_list %}
+    <li class="list-group-item">
+        <a href="{% url 'main:on_date' object.displayed|date:'Ymd' %}">{{ object.displayed|date:"Y-m-d"}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% if page_obj.paginator.num_pages > 1 %}
+    {% include "main/pagination.html" %}
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    const vote_states = {{ vote_states|safe }};
+</script>
+{% endblock extra_js %}

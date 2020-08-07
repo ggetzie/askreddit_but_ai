@@ -36,6 +36,19 @@ body {
   border: 0;
 }
 
+.arrow-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+// .question-text {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-around;
+//   vertical-align: middle;
+// }
+
 .upvoted form.upvote input[type=submit] {
   background: url("/static/images/upvote.png");
 }

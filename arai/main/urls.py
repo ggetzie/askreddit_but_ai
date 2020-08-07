@@ -12,12 +12,14 @@ class DateConverter:
         return value
 
     def to_url(self, value):
-        return '%08d' % value
+        # return '%08d' % value
+        return str(value)
 
 register_converter(DateConverter, "yyyymmdd")
 
 urlpatterns = [
     path("", views.QuestionList.as_view(), name="home"),
-    path("<yyyymmdd:date>", views.QuestionList.as_view(), name="on_date"),
     path("vote/", views.cast_vote, name="cast_vote"),
+    path("archive/", views.Archive.as_view(), name="archive"),
+    path("<yyyymmdd:date>", views.QuestionList.as_view(), name="on_date"),
 ]

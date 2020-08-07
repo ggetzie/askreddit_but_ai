@@ -3,6 +3,7 @@
         "arai",
         "arai db",
         "db",
+        "tweepy",
         "yyyymmdd"
     ],
     "python.pythonPath": "/usr/local/src/env/arai/bin/python"
