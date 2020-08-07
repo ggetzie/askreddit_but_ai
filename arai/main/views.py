@@ -2,11 +2,11 @@ import datetime
 import json
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
-from .models import GeneratedQ
+from .models import GeneratedQ, About
 
 class QuestionList(ListView):
     model = GeneratedQ
@@ -25,8 +25,22 @@ class QuestionList(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context =  super().get_context_data(*args, **kwargs)
-        context["vote_states"] = json.dumps(self.request.session.get("vote_states", {}))
+        context["vote_states"] = json.dumps((self
+                                             .request
+                                             .session.get("vote_states", {})))
+        context["latest_tweet"] = (GeneratedQ
+                                    .objects
+                                    .filter(tweeted=True)
+                                    .latest("tweet_time"))
         return context
+
+class AboutView(DetailView):
+    model = About
+    template_name = "main/about.html"
+
+    def get_object(self, queryset=None):
+        about = get_object_or_404(About, published=True)
+        return about
 
 class Archive(ListView):
     model = GeneratedQ

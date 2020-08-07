@@ -46,5 +46,7 @@ class Command(BaseCommand):
             selected.tweeted = True
             selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
             selected.save()
+            cache_key = make_template_fragment_key("latest_tweet")
+            cache.delete(cache_key)
 
         

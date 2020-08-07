@@ -28,5 +28,6 @@ class Command(BaseCommand):
             for q in selected:
                 q.displayed=today
             GeneratedQ.objects.bulk_update(selected, ["displayed"])
-        cache_key = make_template_fragment_key("dailyq")
+        yesterday = datetime.date.today - datetime.timedelta(days=1)
+        cache_key = make_template_fragment_key("question_list", [yesterday.isoformat()])
         cache.delete(cache_key)

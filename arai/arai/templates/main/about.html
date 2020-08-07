@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load cache %}
+
+{% block content %}
+<h1>About</h1>
+{% cache 86400 about %}
+<div class="w-50">
+{{ object.html|safe }}
+</div>
+{% endcache %}
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

@@ -21,5 +21,6 @@ urlpatterns = [
     path("", views.QuestionList.as_view(), name="home"),
     path("vote/", views.cast_vote, name="cast_vote"),
     path("archive/", views.Archive.as_view(), name="archive"),
+    path("about/", views.AboutView.as_view(), name="about"),
     path("<yyyymmdd:date>", views.QuestionList.as_view(), name="on_date"),
 ]

@@ -1,5 +1,9 @@
 import datetime
 
+import markdown
+
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.utils.text import slugify
 
@@ -52,3 +56,17 @@ class GeneratedQ(models.Model):
 
     def __str__(self):
         return self.text[:20]
+
+class About(models.Model):
+    text = models.TextField("About Text")
+    html = models.TextField("About Html")
+    published = models.BooleanField("Published", default=False)
+
+    def __str__(self):
+        return self.text[:20]
+
+    def save(self, *args, **kwargs):
+        self.html = markdown.markdown(self.text)
+        cache_key = make_template_fragment_key("about")
+        cache.delete(cache_key)
+        return super().save(*args, **kwargs)

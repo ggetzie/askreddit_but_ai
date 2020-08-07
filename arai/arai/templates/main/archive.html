@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
+{% load cache %}
 
 {% block content %}
 <p>
     Click on a link below to view questions from that day
 </p>
+
+{% cache 86400 archive %}
 <ul class="list-group w-50">
     {% for object in object_list %}
     <li class="list-group-item">
@@ -11,6 +14,7 @@
     </li>
     {% endfor %}
 </ul>
+{% endcache %}
 
 
 {% if page_obj.paginator.num_pages > 1 %}
@@ -20,7 +24,5 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script type="text/javascript">
-    const vote_states = {{ vote_states|safe }};
-</script>
+
 {% endblock extra_js %}

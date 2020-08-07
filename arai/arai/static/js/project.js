@@ -65,23 +65,30 @@ for (let element of voteForms ){
 }
 
 function load_vote_state() {
+    if (typeof(vote_states) === "undefined") {
+        return null;
+    }
     for (const v_id in vote_states) {
         let q_id = `question${v_id.slice(v_id.search(/\d+$/))}`;
         let question = document.getElementById(q_id);
-        let vs = vote_states[v_id];
-        if (vs === 1) {
-            question.classList.remove("neutral");
-            question.classList.remove("downvoted");
-            question.classList.add("upvoted");
-        } else if (vs === -1) {
-            question.classList.remove("neutral");
-            question.classList.remove("upvoted");
-            question.classList.add("downvoted");
-        } else {
-            question.classList.remove("upvoted");
-            question.classList.remove("downvoted");
-            question.classList.add("neutral");
+        if (question) {
+            let vs = vote_states[v_id];
+            if (vs === 1) {
+                question.classList.remove("neutral");
+                question.classList.remove("downvoted");
+                question.classList.add("upvoted");
+            } else if (vs === -1) {
+                question.classList.remove("neutral");
+                question.classList.remove("upvoted");
+                question.classList.add("downvoted");
+            } else {
+                question.classList.remove("upvoted");
+                question.classList.remove("downvoted");
+                question.classList.add("neutral");
+            }
+
         }
+        
     }
 }
 
