@@ -17,17 +17,20 @@ class Command(BaseCommand):
                     .filter(tweeted=False, votes=0)
                     .aggregate(Min("displayed"))["displayed__min"])
 
-        candidates = GeneratedQ.objects.filter(displayed=min_date, 
-                                               tweeted=False,
-                                               votes=0)
+        candidates = (GeneratedQ
+                        .objects
+                        .filter(displayed=min_date, 
+                                tweeted=False,
+                                votes=0)
+                        .order_by("randomized"))
         if candidates.count() == 50:
             candidates.update(displayed=datetime.date.today())
         else:
             today = datetime.date.today()
-            selected = random.sample(list(candidates), 50)
+            selected = candidates[:50]
             for q in selected:
                 q.displayed=today
             GeneratedQ.objects.bulk_update(selected, ["displayed"])
-        yesterday = datetime.date.today - datetime.timedelta(days=1)
+        yesterday = datetime.date.today() - datetime.timedelta(days=1)
         cache_key = make_template_fragment_key("question_list", [yesterday.isoformat()])
         cache.delete(cache_key)

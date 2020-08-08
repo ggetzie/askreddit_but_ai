@@ -46,6 +46,7 @@ class GeneratedQ(models.Model):
                                                                 day=1,
                                                                 tzinfo=datetime.timezone.utc)) 
     votes = models.IntegerField("Votes", default=0)
+    randomized = models.PositiveIntegerField("Random Order", default=1)
 
     class Meta:
         ordering = ["slug"]

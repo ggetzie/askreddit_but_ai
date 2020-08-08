@@ -28,10 +28,14 @@ class QuestionList(ListView):
         context["vote_states"] = json.dumps((self
                                              .request
                                              .session.get("vote_states", {})))
-        context["latest_tweet"] = (GeneratedQ
-                                    .objects
-                                    .filter(tweeted=True)
-                                    .latest("tweet_time"))
+        try:                                        
+            context["latest_tweet"] = (GeneratedQ
+                                        .objects
+                                        .filter(tweeted=True)
+                                        .latest("tweet_time"))
+        except GeneratedQ.DoesNotExist:
+            pass
+        
         return context
 
 class AboutView(DetailView):

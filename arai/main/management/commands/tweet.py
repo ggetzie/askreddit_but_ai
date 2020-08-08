@@ -27,7 +27,6 @@ class Command(BaseCommand):
                                 displayed__gt=oldest,
                                 displayed__lt=today)
                         .order_by("-votes"))
-        print(f"candidates: {candidates}")
         if candidates:
             selected = candidates[0]
             auth = tweepy.OAuthHandler(settings.ARAI_TWITTER_API_KEY, 
@@ -39,9 +38,9 @@ class Command(BaseCommand):
                              wait_on_rate_limit_notify=True)
             try:
                 response = api.update_status(selected.text)
-                print(response)
+
             except Exception as e:
-                print(e)
+                
                 logger.error("Error posting tweet", exc_info=True)
             selected.tweeted = True
             selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
