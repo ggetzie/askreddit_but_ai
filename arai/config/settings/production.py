@@ -24,9 +24,11 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-secure
 SESSION_COOKIE_SECURE = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = ["d19met9wl0b83b.cloudfront.net", ".askredditbut.ai"]
+CSRF_TRUSTED_ORIGINS = ["d19met9wl0b83b.cloudfront.net", 
+                        "askredditbut.ai", 
+                        "www.askredditbut.ai"]
 CSRF_COOKIE_DOMAIN = "d19met9wl0b83b.cloudfront.net"
 
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
