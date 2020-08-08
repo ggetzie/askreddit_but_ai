@@ -20,6 +20,7 @@ async function castVote(voteForm) {
     let data = {
         "question_id": voteForm["question_id"].value,
         "direction": voteForm["direction"].value,
+        "csrfmiddlewaretoken": voteForm["csrfmiddlewaretoken"].value,
     }
 
     fetch(voteForm.action, {
