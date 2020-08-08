@@ -2,7 +2,9 @@
     "cSpell.ignoreWords": [
         "arai",
         "arai db",
+        "csrftoken",
         "db",
+        "freshcsrf",
         "tweepy",
         "yyyymmdd"
     ],

@@ -22,11 +22,13 @@ async function castVote(voteForm) {
         "direction": voteForm["direction"].value,
     }
 
+    const csrftoken = document.querySelector("#freshcsrf input[name='csrfmiddlewaretoken']").value
+
     fetch(voteForm.action, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": voteForm["csrfmiddlewaretoken"].value,
+            "X-CSRFToken": csrftoken,
             "Accept": "application/json",
             "X-Requested-With": "XMLHttpRequest"
         },

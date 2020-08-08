@@ -63,7 +63,9 @@
 {% if page_obj.paginator.num_pages > 1 %}
     {% include "main/pagination.html" %}
 {% endif %}
-
+<div id="freshcsrf" style="display: none">
+    {% csrf_token %}
+</div>
 {% endblock content %}
 
 {% block extra_js %}

@@ -62,7 +62,6 @@ class Archive(ListView):
 
     
 @require_POST
-@csrf_exempt
 def cast_vote(request):
     
     data = json.loads(request.body)
