@@ -27,6 +27,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = ["d19met9wl0b83b.cloudfront.net", ".askredditbut.ai"]
+CSRF_COOKIE_DOMAIN = "d19met9wl0b83b.cloudfront.net"
 
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-seconds
