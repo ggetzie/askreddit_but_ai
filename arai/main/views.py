@@ -3,11 +3,15 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import requires_csrf_token
 from django.views.generic import ListView, DetailView
+
 
 from .models import GeneratedQ, About
 
+@method_decorator(requires_csrf_token, name="dispatch")
 class QuestionList(ListView):
     model = GeneratedQ
     paginate_by = 50
