@@ -32,7 +32,7 @@ exec /usr/local/src/env/arai/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
     --workers $NUM_WORKERS \
     --timeout $TIMEOUT \
     --user=$USER --group=$GROUP \
-    --bind 127.0.0.1:8001 \
+    --bind 127.0.0.1:8007 \
     --log-level=error \
     --log-file=-
 
