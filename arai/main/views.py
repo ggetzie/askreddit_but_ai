@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.generic import ListView, DetailView
 
 
@@ -62,6 +62,7 @@ class Archive(ListView):
 
     
 @require_POST
+@csrf_exempt
 def cast_vote(request):
     
     data = json.loads(request.body)
