@@ -11,7 +11,6 @@ from django.views.generic import ListView, DetailView
 
 from .models import GeneratedQ, About
 
-@method_decorator(ensure_csrf_cookie, name="dispatch")
 class QuestionList(ListView):
     model = GeneratedQ
     paginate_by = 50
