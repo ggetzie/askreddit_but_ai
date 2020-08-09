@@ -15,12 +15,12 @@
     The highest voted questions will be periodically tweeted by the account <a href="https://twitter.com/AskredditButAI">@AskRedditButAI</a>
 </p>
 <p>
-    50 new questions will be presented every day at midnight East Coast US time.
+    {{ object_list.count }} new questions will be presented every day at midnight East Coast US time.
 </p>
 
 
 <div id="question_tweet" class="row">
-    {% cache 86400 question_list object_list.0.displayed.isoformat %}
+    {% cache 86400 question_list object_list.0.displayed.isoformat page_obj.number %}
     <div id="questions" class="col-md-8">
         {% for question in object_list %}
         <div id="question{{ question.id }}" class="row border-top border-dark neutral pb-2 pt-2" style="max-width: 80%; margin: auto;">

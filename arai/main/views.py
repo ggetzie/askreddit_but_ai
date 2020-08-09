@@ -10,10 +10,11 @@ from django.views.generic import ListView, DetailView
 
 
 from .models import GeneratedQ, About
+from .management.commands.select_questions import DAILY_COUNT
 
 class QuestionList(ListView):
     model = GeneratedQ
-    paginate_by = 50
+    paginate_by = DAILY_COUNT
     template_name = "main/question_list.html"
 
     def get_queryset(self):
@@ -23,7 +24,7 @@ class QuestionList(ListView):
         else:
             date = datetime.date.today()
                         
-        qs = self.model.objects.filter(displayed=date)
+        qs = self.model.objects.filter(displayed=date).order_by("randomized")
         return qs
 
     def get_context_data(self, *args, **kwargs):
