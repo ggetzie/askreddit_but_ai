@@ -10,5 +10,7 @@ class GeneratedQAdmin(admin.ModelAdmin):
 
 @admin.register(About)
 class AboutAdmin(admin.ModelAdmin):
-    fields = ["text", "published"]
+    fields = ["title", "text", "published"]
+    list_display = ("title",)
+    
     

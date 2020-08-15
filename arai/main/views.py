@@ -32,6 +32,8 @@ class QuestionList(ListView):
         context["vote_states"] = json.dumps((self
                                              .request
                                              .session.get("vote_states", {})))
+        context["intro"], _ = About.objects.get_or_create(title="intro",
+                                                          defaults={"text": "hi"})
         try:                                        
             context["latest_tweet"] = (GeneratedQ
                                         .objects
@@ -47,7 +49,7 @@ class AboutView(DetailView):
     template_name = "main/about.html"
 
     def get_object(self, queryset=None):
-        about = get_object_or_404(About, published=True)
+        about = get_object_or_404(About, title="about")
         return about
 
 class Archive(ListView):
