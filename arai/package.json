@@ -1,7 +1,9 @@
 {
   "name": "arai",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.5.2"
+  },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
     "browser-sync": "^2.14.0",

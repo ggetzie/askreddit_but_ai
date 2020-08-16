@@ -1,5 +1,11 @@
 // project specific CSS goes here
 
+// body {
+//     font-family: 'Open Sans', sans-serif;
+// }
+
+$font-family-sans-serif: 'Open Sans', sans-serif;
+
 @media screen and (min-width: 601px) {
 body {
         padding-top: 55px;
@@ -108,3 +114,5 @@ $red: #b94a48;
   border-color: $dark-pink;
   color: $red;
 }
+
+@import "../../../node_modules/bootstrap/scss/bootstrap";
