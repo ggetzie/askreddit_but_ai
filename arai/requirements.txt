@@ -48,7 +48,7 @@ ipython==7.16.1
 ipython-genutils==0.2.0
 isort==4.3.21
 jedi==0.17.2
-Jinja2==2.11.2
+Jinja2==2.11.3
 jmespath==0.10.0
 lazy-object-proxy==1.4.3
 livereload==2.6.2
