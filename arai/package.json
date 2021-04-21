@@ -2,7 +2,11 @@
   "name": "arai",
   "version": "0.1.0",
   "dependencies": {
-    "bootstrap": "^4.5.2"
+    "axios": "^0.21.1",
+    "bootstrap": "^4.5.2",
+    "is-svg": "^4.2.2",
+    "socket.io": "^2.4.0",
+    "y18n": "^4.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
