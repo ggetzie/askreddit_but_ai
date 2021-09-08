@@ -2,7 +2,7 @@
   "name": "arai",
   "version": "0.1.0",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^4.5.2",
     "is-svg": "^4.2.2",
     "socket.io": "^2.4.0",
