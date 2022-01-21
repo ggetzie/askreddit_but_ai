@@ -1,79 +1,91 @@
-{% extends 'base.html' %}
-{% load cache static %}
-{% block content %}
-
-{% comment %}
-{% cache 21600 latest_tweet %}
+{% extends 'base.html' %} {% load cache static %} {% block content %} 
+{%comment%} {% cache 21600 latest_tweet %}
 <h1 class="display-4 mb-5 pr-5 pl-5">{{ latest_tweet.text }}</h1>
-{% endcache %}
-{% endcomment %}
+{% endcache %} {% endcomment %}
 
-<a href="https://reddit.com/r/askredditbutai"><img class="img-fluid mt-1 mb-5" src="{% static 'images/Max_banner_crop_narrow_integrated.png' %}"></a>
-
+<a href="https://reddit.com/r/askredditbutai">
+  <img
+    class="img-fluid mt-1 mb-5"
+    src="{% static 'images/Max_banner_crop_narrow_integrated.png' %}"
+/></a>
 
 <div class="row mb-5">
   {% cache 86400 about intro.title %}
-  <div id="intro" class="col">
-    {{ intro.html|safe }}
-  </div>
+  <div id="intro" class="col">{{ intro.html|safe }}</div>
   {% endcache %}
   <div class="col">
-      <script src='https://redditjs.com/post.js' data-url="{{ latest_tweet.reddit_id }}" data-height=300></script>
+    <script
+      src="https://redditjs.com/post.js"
+      data-url="{{ latest_tweet.reddit_id }}"
+      data-height="300"
+    ></script>
   </div>
 </div>
 
-
 <div id="question_tweet" class="row">
-    {% cache 86400 question_list object_list.0.displayed.isoformat page_obj.number %}
-    <div id="questions" class="col-md-8">
-        {% for question in object_list %}
-        <div id="question{{ question.id }}" class="row border-top border-dark neutral pb-2 pt-2" style="max-width: 80%; margin: auto;">
-            <div class="col-auto align-middle arrow-col">
-                <form id="up{{ question.id }}" 
-                      class="form-inline upvote vote-form" 
-                      action="{% url 'main:cast_vote' %}" 
-                      method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ question.id }}" name="question_id">
-                    <input type="hidden" value="up" name="direction">
-                    <input type="submit" value="">
-                </form>
-                <form id="down{{ question.id }}" 
-                      class="form-inline downvote vote-form" 
-                      action="{% url 'main:cast_vote' %}"
-                      method="POST"> 
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ question.id }}" name="question_id">
-                    <input type="hidden" value="down" name="direction">
-                    <input type="submit" value="">
-                </form>
-            </div>
-            <div class="col question-text"><p class="my-auto">{{ question.text }}</p></div>
-        </div>
-        {% empty %}
-        <div class="row mb-3">
-            <div class="col">
-                No questions found for this date
-            </div>
-        </div>
-        {% endfor %}
+  {% cache 86400 question_list object_list.0.displayed.isoformat page_obj.number %}
+  <div id="questions" class="col-md-8">
+    {% for question in object_list %}
+    <div
+      id="question{{ question.id }}"
+      class="row border-top border-dark neutral pb-2 pt-2"
+      style="max-width: 80%; margin: auto"
+    >
+      <div class="col-auto align-middle arrow-col">
+        <form
+          id="up{{ question.id }}"
+          class="form-inline upvote vote-form"
+          action="{% url 'main:cast_vote' %}"
+          method="POST"
+        >
+          {% csrf_token %}
+          <input type="hidden" value="{{ question.id }}" name="question_id" />
+          <input type="hidden" value="up" name="direction" />
+          <input type="submit" value="" />
+        </form>
+        <form
+          id="down{{ question.id }}"
+          class="form-inline downvote vote-form"
+          action="{% url 'main:cast_vote' %}"
+          method="POST"
+        >
+          {% csrf_token %}
+          <input type="hidden" value="{{ question.id }}" name="question_id" />
+          <input type="hidden" value="down" name="direction" />
+          <input type="submit" value="" />
+        </form>
+      </div>
+      <div class="col question-text">
+        <p class="my-auto">{{ question.text }}</p>
+      </div>
     </div>
-    {% endcache %}
-    <div id="tweets" class="col-md-4">
-        <a class="twitter-timeline" href="https://twitter.com/AskredditButAI?ref_src=twsrc%5Etfw">Tweets by AskredditButAI</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% empty %}
+    <div class="row mb-3">
+      <div class="col">No questions found for this date</div>
     </div>
+    {% endfor %}
+  </div>
+  {% endcache %}
+  <div id="tweets" class="col-md-4">
+    <a
+      class="twitter-timeline"
+      data-height="1500"
+      href="https://twitter.com/AskredditButAI?ref_src=twsrc%5Etfw"
+      >Tweets by AskredditButAI</a
+    >
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+  </div>
 </div>
 
-{% if page_obj.paginator.num_pages > 1 %}
-    {% include "main/pagination.html" %}
+{% if page_obj.paginator.num_pages > 1 %} {% include "main/pagination.html" %}
 {% endif %}
-<div id="freshcsrf" style="display: none">
-    {% csrf_token %}
-</div>
-{% endblock content %}
-
-{% block extra_js %}
+<div id="freshcsrf" style="display: none">{% csrf_token %}</div>
+{% endblock content %} {% block extra_js %}
 <script type="text/javascript">
-    const vote_states = {{ vote_states|safe }};
+  const vote_states = {{ vote_states|safe }};
 </script>
 {% endblock extra_js %}

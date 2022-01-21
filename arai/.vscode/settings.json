@@ -1,10 +1,11 @@
 {
-    "cSpell.ignoreWords": [
-        "arai",
-        "arai twitter key",
-        "key",
-        "tweepy",
-        "twitter"
-    ],
-    "python.linting.pylintEnabled": true
+  "cSpell.ignoreWords": [
+    "arai",
+    "arai twitter key",
+    "key",
+    "tweepy",
+    "twitter"
+  ],
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black"
 }

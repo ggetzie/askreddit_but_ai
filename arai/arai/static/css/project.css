@@ -1,12 +1,6 @@
 @media screen and (min-width: 601px) {
   body {
-    padding-top: 55px; }
-  #question_tweet {
-    height: 80vh;
-    overflow-y: hidden; }
-  #questions {
-    height: 100%;
-    overflow-y: auto; } }
+    padding-top: 55px; } }
 
 @media screen and (max-width: 600px) {
   body {
@@ -18,7 +12,7 @@
 #intro {
   font-size: larger; }
 
-.vote-form input[type=submit] {
+.vote-form input[type="submit"] {
   height: 14px;
   width: 15px;
   display: block;
@@ -39,22 +33,22 @@
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly; }
 
-.upvoted form.upvote input[type=submit] {
+.upvoted form.upvote input[type="submit"] {
   background: url("/static/images/upvote.png"); }
 
-.upvoted form.downvote input[type=submit] {
+.upvoted form.downvote input[type="submit"] {
   background: url("/static/images/downneutral.png"); }
 
-.downvoted form.downvote input[type=submit] {
+.downvoted form.downvote input[type="submit"] {
   background: url("/static/images/downvote.png"); }
 
-.downvoted form.upvote input[type=submit] {
+.downvoted form.upvote input[type="submit"] {
   background: url("/static/images/upneutral.png"); }
 
-.neutral form.upvote input[type=submit] {
+.neutral form.upvote input[type="submit"] {
   background: url("/static/images/upneutral.png"); }
 
-.neutral form.downvote input[type=submit] {
+.neutral form.downvote input[type="submit"] {
   background: url("/static/images/downneutral.png"); }
 
 .alert-debug {

@@ -8,8 +8,7 @@ import tweepy
 from django.conf import settings
 from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Min
+from django.core.management.base import BaseCommand
 from main.models import GeneratedQ
 
 ARAI_REDDIT_ID = settings.ARAI_REDDIT_ID
@@ -22,43 +21,44 @@ TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
 POST_URL = "https://oauth.reddit.com/api/submit"
 logger = logging.getLogger(__name__)
 
+
 def get_reddit_token():
-    
-    client_auth = requests.auth.HTTPBasicAuth(ARAI_REDDIT_ID,
-                                              ARAI_REDDIT_SECRET)
-    post_data = {"grant_type": "password",
-                 "username": ARAI_REDDIT_USERNAME,
-                 "password": ARAI_REDDIT_PASSWORD}
+
+    client_auth = requests.auth.HTTPBasicAuth(ARAI_REDDIT_ID, ARAI_REDDIT_SECRET)
+    post_data = {
+        "grant_type": "password",
+        "username": ARAI_REDDIT_USERNAME,
+        "password": ARAI_REDDIT_PASSWORD,
+    }
     headers = {"User-Agent": ARAI_REDDIT_UA}
-    response = requests.post(TOKEN_URL,
-                             auth=client_auth,
-                             data=post_data,
-                             headers=headers)
+    response = requests.post(
+        TOKEN_URL, auth=client_auth, data=post_data, headers=headers
+    )
     rj = response.json()
     return rj["access_token"]
 
+
 def post_to_reddit(title, token):
-    headers = {"Authorization": f"bearer {token}",
-               "User-Agent": ARAI_REDDIT_UA}
+    headers = {"Authorization": f"bearer {token}", "User-Agent": ARAI_REDDIT_UA}
     post_title = title if title.endswith("?") else title + "?"
-    post_data = {"ad": False,
-                 "api_type": "json",
-                 "app": ARAI_REDDIT_ID,
-                 "extension": "json",
-                 "kind": "self",
-                 "nsfw": False,
-                 "resubmit": False,
-                 "sendreplies": False,
-                 "spoiler": False,
-                 "sr": "AskRedditButAI",
-                 "text": "",
-                 "title": post_title}
-    response = requests.post(POST_URL,
-                             headers=headers,
-                             data=post_data)
+    post_data = {
+        "ad": False,
+        "api_type": "json",
+        "app": ARAI_REDDIT_ID,
+        "extension": "json",
+        "kind": "self",
+        "nsfw": False,
+        "resubmit": False,
+        "sendreplies": False,
+        "spoiler": False,
+        "sr": "AskRedditButAI",
+        "text": "",
+        "title": post_title,
+    }
+    response = requests.post(POST_URL, headers=headers, data=post_data)
     return response
-                 
-    
+
+
 class Command(BaseCommand):
 
     help = "Tweet highest voted question that hasn't been tweeted"
@@ -66,27 +66,25 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         oldest = datetime.date(year=1970, month=1, day=1)
         today = datetime.date.today()
-        candidates = (GeneratedQ
-                        .objects
-                        .filter(tweeted=False, 
-                                votes__gt=0,
-                                displayed__gt=oldest,
-                                displayed__lt=today)
-                        .order_by("-votes"))
+        candidates = GeneratedQ.objects.filter(
+            tweeted=False, votes__gt=0, displayed__gt=oldest, displayed__lt=today
+        ).order_by("-votes")
         if candidates:
             selected = candidates[0]
-            auth = tweepy.OAuthHandler(settings.ARAI_TWITTER_API_KEY, 
-                                       settings.ARAI_TWITTER_API_SECRET_KEY)
-            auth.set_access_token(settings.ARAI_TWITTER_ACCESS_TOKEN, 
-                                  settings.ARAI_TWITTER_ACCESS_TOKEN_SECRET)
-            api = tweepy.API(auth, 
-                             wait_on_rate_limit=True,
-                             wait_on_rate_limit_notify=True)
+            auth = tweepy.OAuthHandler(
+                settings.ARAI_TWITTER_API_KEY, settings.ARAI_TWITTER_API_SECRET_KEY
+            )
+            auth.set_access_token(
+                settings.ARAI_TWITTER_ACCESS_TOKEN,
+                settings.ARAI_TWITTER_ACCESS_TOKEN_SECRET,
+            )
+            api = tweepy.API(
+                auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+            )
             try:
                 response = api.update_status(selected.text)
 
-            except Exception as e:
-                
+            except Exception:
                 logger.error("Error posting tweet", exc_info=True)
             selected.tweeted = True
             selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
@@ -111,5 +109,3 @@ class Command(BaseCommand):
                 selected.reddit_id = rj["json"]["data"]["id"]
 
             selected.save()
-
-    
