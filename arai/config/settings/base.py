@@ -42,14 +42,14 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-	"default": {
-		"ENGINE": "django.db.backends.postgresql_psycopg2",
-		"NAME": "arai_db",
-		"USER": "arai_user",
-		"PASSWORD": env("arai_DB_PW"), # store in environment variable
-		"HOST": "localhost",
-		"PORT": "",                      # Set to empty string for default.
-	}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "arai_db",
+        "USER": "arai_user",
+        "PASSWORD": env("arai_DB_PW"),  # store in environment variable
+        "HOST": "localhost",
+        "PORT": "",  # Set to empty string for default.
+    }
 }
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
@@ -250,8 +250,10 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
+            "format": (
+                "%(levelname)s %(asctime)s %(module)s "
+                "%(process)d %(thread)d %(message)s"
+            )
         }
     },
     "handlers": {
@@ -276,7 +278,7 @@ CACHES = {
             # http://jazzband.github.io/django-redis/latest/#_memcached_exceptions_behavior
             "IGNORE_EXCEPTIONS": True,
         },
-        "KEY_PREFIX": "arai"
+        "KEY_PREFIX": "arai",
     }
 }
 
@@ -308,3 +310,4 @@ ARAI_REDDIT_PASSWORD = env("arai_Reddit_password")
 ARAI_REDDIT_ID = env("arai_Reddit_id")
 ARAI_REDDIT_SECRET = env("arai_Reddit_secret")
 ARAI_REDDIT_UA = "AskReddit But AI Bot V0.2"
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

@@ -10,7 +10,9 @@
   min-height: 80vh; }
 
 #intro {
-  font-size: larger; }
+  font-size: larger;
+  max-width: 640px;
+  max-width: 40rem; }
 
 .vote-form input[type="submit"] {
   height: 14px;

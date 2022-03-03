@@ -9,27 +9,19 @@
     src="{% static 'images/Max_banner_crop_narrow_integrated.png' %}"
 /></a>
 
-<div class="row mb-5">
   {% cache 86400 about intro.title %}
-  <div id="intro" class="col">{{ intro.html|safe }}</div>
-  {% endcache %}
-  <div class="col">
-    <script
-      src="https://redditjs.com/post.js"
-      data-url="{{ latest_tweet.reddit_id }}"
-      data-height="300"
-    ></script>
-  </div>
-</div>
+  <div id="intro" class="mb-5">{{ intro.html|safe }}</div>
+  {% endcache %} 
 
-<div id="question_tweet" class="row">
-  {% cache 86400 question_list object_list.0.displayed.isoformat page_obj.number %}
+
+<div id="question_tweet" class="row pl-3">
+  {% cache 86400 question_list object_list.0.displayed.isoformat page_obj.number %} 
   <div id="questions" class="col-md-8">
     {% for question in object_list %}
     <div
       id="question{{ question.id }}"
       class="row border-top border-dark neutral pb-2 pt-2"
-      style="max-width: 80%; margin: auto"
+      style="max-width: 80%;"
     >
       <div class="col-auto align-middle arrow-col">
         <form
