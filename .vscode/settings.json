@@ -1,13 +1,14 @@
 {
-    "cSpell.ignoreWords": [
-        "arai",
-        "arai db",
-        "csrftoken",
-        "db",
-        "freshcsrf",
-        "tweepy",
-        "yyyymmdd"
-    ],
-    "python.pythonPath": "/usr/local/src/env/arai/bin/python",
-    "restructuredtext.languageServer.disabled": true
+  "cSpell.ignoreWords": [
+    "arai",
+    "arai db",
+    "csrftoken",
+    "db",
+    "freshcsrf",
+    "tweepy",
+    "yyyymmdd"
+  ],
+  "python.pythonPath": "/usr/local/src/env/arai/bin/python",
+  "restructuredtext.languageServer.disabled": true,
+  "python.formatting.provider": "black"
 }

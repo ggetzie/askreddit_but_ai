@@ -6,8 +6,9 @@ from .base import env
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("arai_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["askredditbut.ai", 
-                                                          "www.askredditbut.ai"])
+ALLOWED_HOSTS = env.list(
+    "DJANGO_ALLOWED_HOSTS", default=["askredditbut.ai", "www.askredditbut.ai"]
+)
 
 # # DATABASES
 # # ------------------------------------------------------------------------------
@@ -26,9 +27,11 @@ SESSION_COOKIE_SECURE = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
 CSRF_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = ["d19met9wl0b83b.cloudfront.net", 
-                        "askredditbut.ai", 
-                        "www.askredditbut.ai"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://d19met9wl0b83b.cloudfront.net",
+    "https://askredditbut.ai",
+    "https://www.askredditbut.ai",
+]
 CSRF_COOKIE_DOMAIN = "askredditbut.ai"
 
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
@@ -103,9 +106,7 @@ DEFAULT_FROM_EMAIL = env(
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default="server@askredditbut.ai")
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = env(
-    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[arai]"
-)
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default="[arai]")
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -120,11 +121,7 @@ INSTALLED_APPS += ["anymail"]  # noqa F405
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps/amazon_ses/
 EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
-ANYMAIL = {
-    "AMAZON_SES_CLIENT_PARAMS": {
-        "region_name": "us-east-1"
-    }
-}
+ANYMAIL = {"AMAZON_SES_CLIENT_PARAMS": {"region_name": "us-east-1"}}
 
 # Collectfast
 # ------------------------------------------------------------------------------
