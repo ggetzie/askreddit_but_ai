@@ -18,7 +18,7 @@ chardet==3.0.4
 click==7.1.2
 Collectfast==2.2.0
 coverage==5.2
-cryptography==36.0.1
+cryptography==39.0.1
 decorator==4.4.2
 defusedxml==0.6.0
 distlib==0.3.1
