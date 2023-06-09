@@ -73,7 +73,7 @@ pathspec==0.8.0
 pathtools==0.1.2
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==9.0.1
+Pillow==9.3.0
 platformdirs==2.4.1
 pluggy==0.13.1
 port-for==0.3.1
