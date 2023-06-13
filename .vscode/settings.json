@@ -10,5 +10,8 @@
   ],
   "python.pythonPath": "/usr/local/src/env/arai/bin/python",
   "restructuredtext.languageServer.disabled": true,
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "none",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  }
 }

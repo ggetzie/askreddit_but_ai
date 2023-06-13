@@ -23,7 +23,6 @@ logger = logging.getLogger(__name__)
 
 
 def get_reddit_token():
-
     client_auth = requests.auth.HTTPBasicAuth(ARAI_REDDIT_ID, ARAI_REDDIT_SECRET)
     post_data = {
         "grant_type": "password",
@@ -60,7 +59,6 @@ def post_to_reddit(title, token):
 
 
 class Command(BaseCommand):
-
     help = "Tweet highest voted question that hasn't been tweeted"
 
     def handle(self, *args, **options):
@@ -79,7 +77,9 @@ class Command(BaseCommand):
                 settings.ARAI_TWITTER_ACCESS_TOKEN_SECRET,
             )
             api = tweepy.API(
-                auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+                auth,
+                wait_on_rate_limit=True,
+                # wait_on_rate_limit_notify=True
             )
             try:
                 response = api.update_status(selected.text)
