@@ -13,7 +13,7 @@ echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environement
 cd $DJANGODIR
-source /usr/local/src/env/arai/bin/activate
+source /usr/local/src/askreddit_but_ai/arai/.venv/bin/activate
 
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
@@ -22,12 +22,12 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 RUNDIR=$(dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
-# Start you Django Unicorn 
+# Start your Django Unicorn 
 # Programs meant to be run under supervisor should not
 # daemonize themselves.
 # (do not use --daemon)
 
-exec /usr/local/src/env/arai/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+exec /usr/local/src/askreddit_but_ai/arai/.venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
     --name $NAME \
     --workers $NUM_WORKERS \
     --timeout $TIMEOUT \
