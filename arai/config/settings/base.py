@@ -9,11 +9,7 @@ ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # arai/
 APPS_DIR = ROOT_DIR / "arai"
 env = environ.Env()
-
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
-if READ_DOT_ENV_FILE:
-    # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR / ".env"))
+env.read_env(str(ROOT_DIR / ".env"))
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -44,8 +40,8 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "arai_db",
-        "USER": "arai_user",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
         "PASSWORD": env("arai_DB_PW"),  # store in environment variable
         "HOST": "localhost",
         "PORT": "",  # Set to empty string for default.
