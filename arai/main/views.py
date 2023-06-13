@@ -1,5 +1,6 @@
 import datetime
 import json
+from typing import Any, Dict
 
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -12,6 +13,7 @@ from django.views.generic import ListView, DetailView
 from .models import GeneratedQ, About
 from .management.commands.select_questions import DAILY_COUNT
 
+
 class QuestionList(ListView):
     model = GeneratedQ
     paginate_by = DAILY_COUNT
@@ -19,30 +21,30 @@ class QuestionList(ListView):
 
     def get_queryset(self):
         if "date" in self.kwargs:
-            date = datetime.datetime.strptime(self.kwargs["date"],
-                                              "%Y%m%d")
+            date = datetime.datetime.strptime(self.kwargs["date"], "%Y%m%d")
         else:
             date = datetime.date.today()
-                        
+
         qs = self.model.objects.filter(displayed=date).order_by("randomized")
         return qs
 
     def get_context_data(self, *args, **kwargs):
-        context =  super().get_context_data(*args, **kwargs)
-        context["vote_states"] = json.dumps((self
-                                             .request
-                                             .session.get("vote_states", {})))
-        context["intro"], _ = About.objects.get_or_create(title="intro",
-                                                          defaults={"text": "hi"})
-        try:                                        
-            context["latest_tweet"] = (GeneratedQ
-                                        .objects
-                                        .filter(tweeted=True)
-                                        .latest("tweet_time"))
+        context = super().get_context_data(*args, **kwargs)
+        context["vote_states"] = json.dumps(
+            (self.request.session.get("vote_states", {}))
+        )
+        context["intro"], _ = About.objects.get_or_create(
+            title="intro", defaults={"text": "hi"}
+        )
+        try:
+            context["latest_tweet"] = GeneratedQ.objects.filter(tweeted=True).latest(
+                "tweet_time"
+            )
         except GeneratedQ.DoesNotExist:
             pass
-        
+
         return context
+
 
 class AboutView(DetailView):
     model = About
@@ -52,6 +54,12 @@ class AboutView(DetailView):
         about = get_object_or_404(About, title="about")
         return about
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["active_page"] = "about"
+        return context
+
+
 class Archive(ListView):
     model = GeneratedQ
     paginate_by = 50
@@ -59,14 +67,38 @@ class Archive(ListView):
 
     def get_queryset(self):
         oldest = datetime.date(year=1970, month=1, day=1)
-        qs = (GeneratedQ.objects.exclude(displayed=oldest)
-                                .order_by("-displayed").distinct("displayed"))
+        qs = (
+            GeneratedQ.objects.exclude(displayed=oldest)
+            .order_by("-displayed")
+            .distinct("displayed")
+        )
         return qs
 
-    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["active_page"] = "archive"
+        return context
+
+
+class OnDeck(ListView):
+    model = GeneratedQ
+    paginate_by = 100
+    template_name = "main/on_deck.html"
+
+    def get_queryset(self):
+        qs = GeneratedQ.objects.filter(tweeted=False, votes__gt=0).order_by(
+            "-votes", "-displayed"
+        )
+        return qs
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["active_page"] = "on_deck"
+        return context
+
+
 @require_POST
 def cast_vote(request):
-    
     data = json.loads(request.body)
     q_id = data.get("question_id", -1)
     direction = data.get("direction", "")
@@ -115,11 +147,6 @@ def cast_vote(request):
     question.save()
     request.session["vote_states"] = vote_states
 
-    return JsonResponse({
-                        "result": "success",
-                        "question_id": q_id,
-                        "vote_state": vote_states[v_id]
-                        })
-    
-
-
+    return JsonResponse(
+        {"result": "success", "question_id": q_id, "vote_state": vote_states[v_id]}
+    )

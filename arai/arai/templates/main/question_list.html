@@ -58,6 +58,7 @@
     {% endfor %}
   </div>
   {% endcache %}
+{% comment %}   
   <div id="tweets" class="col-md-4">
     <a
       class="twitter-timeline"
@@ -70,7 +71,7 @@
       src="https://platform.twitter.com/widgets.js"
       charset="utf-8"
     ></script>
-  </div>
+  </div> {% endcomment %}
 </div>
 
 {% if page_obj.paginator.num_pages > 1 %} {% include "main/pagination.html" %}

@@ -47,11 +47,14 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-	    <li class="nav-item">
-              <a class="nav-link" href="{% url 'main:about' %}">About</a>
+	          <li class="nav-item">
+              <a class="nav-link{% if active_page == 'about' %} active{% endif %}" href="{% url 'main:about' %}">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'main:archive' %}">Archive</a>
+              <a class="nav-link{% if active_page == 'archive' %} active{% endif %}" href="{% url 'main:archive' %}">Archive</a>
+            </li>
+            <li class="nav-item{% if active_page == 'on_deck' %} active{% endif %}">
+              <a class="nav-link" href="{% url 'main:on_deck' %}">On Deck</a>
             </li>
 
           </ul>

@@ -6,19 +6,23 @@
     Click on a link below to view questions from that day
 </p>
 
-{% cache 86400 archive %}
-<ul class="list-group w-50">
+{% comment %} {% cache 86400 archive %} {% endcomment %}
+
+<ul class="list-group m-auto text-center" style="max-width: 400px;">
     {% for object in object_list %}
     <li class="list-group-item">
         <a href="{% url 'main:on_date' object.displayed|date:'Ymd' %}">{{ object.displayed|date:"Y-m-d"}}</a>
     </li>
     {% endfor %}
 </ul>
-{% endcache %}
+
+{% comment %} {% endcache %} {% endcomment %}
 
 
 {% if page_obj.paginator.num_pages > 1 %}
+<div class="mt-3">
     {% include "main/pagination.html" %}
+</div>
 {% endif %}
 
 {% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load cache humanize %}
+
+{% block content %}
+<h2>Questions On Deck</h2>
+<p>
+    {{ page_obj.paginator.count|intcomma }} questions have been upvoted but have not yet been tweeted.
+</p>
+
+{% cache 86400 on_deck %}
+
+<ul class="list-group m-auto">
+    {% for question in object_list %}
+    <li class="list-group-item">
+      <p>
+        {{ question.text }}
+      </p>
+      <p class="m-0">
+        {{ question.displayed|date:"M j, Y"}} 
+      </p>
+      <p class="m-0">
+        Votes: {{ question.votes }}
+      </p>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endcache %}
+
+
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="mt-3">
+    {% include "main/pagination.html" %}
+</div>
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}
