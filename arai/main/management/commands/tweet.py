@@ -1,9 +1,9 @@
 import datetime
+import json
 import logging
 
 import requests
-
-import tweepy
+from requests_oauthlib import OAuth1Session
 
 from django.conf import settings
 from django.core.cache import cache
@@ -31,7 +31,7 @@ def get_reddit_token():
     }
     headers = {"User-Agent": ARAI_REDDIT_UA}
     response = requests.post(
-        TOKEN_URL, auth=client_auth, data=post_data, headers=headers
+        TOKEN_URL, auth=client_auth, data=post_data, headers=headers, timeout=10
     )
     rj = response.json()
     return rj["access_token"]
@@ -54,7 +54,22 @@ def post_to_reddit(title, token):
         "text": "",
         "title": post_title,
     }
-    response = requests.post(POST_URL, headers=headers, data=post_data)
+    response = requests.post(POST_URL, headers=headers, data=post_data, timeout=10)
+    return response
+
+
+def create_tweet(
+    consumer_key, consumer_secret, access_token, access_token_secret, message
+):
+    payload = {"text": message}
+    oauth = OAuth1Session(
+        consumer_key,
+        client_secret=consumer_secret,
+        resource_owner_key=access_token,
+        resource_owner_secret=access_token_secret,
+    )
+    response = oauth.post("https://api.twitter.com/2/tweets", json=payload)
+
     return response
 
 
@@ -69,25 +84,25 @@ class Command(BaseCommand):
         ).order_by("-votes")
         if candidates:
             selected = candidates[0]
-            auth = tweepy.OAuthHandler(
-                settings.ARAI_TWITTER_API_KEY, settings.ARAI_TWITTER_API_SECRET_KEY
-            )
-            auth.set_access_token(
+            response = create_tweet(
+                settings.ARAI_TWITTER_API_KEY,
+                settings.ARAI_TWITTER_API_SECRET_KEY,
                 settings.ARAI_TWITTER_ACCESS_TOKEN,
                 settings.ARAI_TWITTER_ACCESS_TOKEN_SECRET,
+                selected.text,
             )
-            api = tweepy.API(
-                auth,
-                wait_on_rate_limit=True,
-                # wait_on_rate_limit_notify=True
-            )
-            try:
-                response = api.update_status(selected.text)
-
-            except Exception:
-                logger.error("Error posting tweet", exc_info=True)
-            selected.tweeted = True
-            selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
+            if response.status_code != 201:
+                logger.error(
+                    "Error sending tweet: %s %s", response.status_code, response.content
+                )
+                selected.tweeted = True
+                selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
+            else:
+                logger.info(
+                    "Tweet sent: %s %s",
+                    response.status_code,
+                    json.dumps(response.json(), indent=2, sort_keys=True),
+                )
 
             cache_key = make_template_fragment_key("latest_tweet")
             cache.delete(cache_key)
