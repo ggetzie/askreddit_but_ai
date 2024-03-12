@@ -95,14 +95,15 @@ class Command(BaseCommand):
                 logger.error(
                     "Error sending tweet: %s %s", response.status_code, response.content
                 )
-                selected.tweeted = True
-                selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
+
             else:
                 logger.info(
                     "Tweet sent: %s %s",
                     response.status_code,
                     json.dumps(response.json(), indent=2, sort_keys=True),
                 )
+                selected.tweeted = True
+                selected.tweet_time = datetime.datetime.now(tz=datetime.timezone.utc)
 
             cache_key = make_template_fragment_key("latest_tweet")
             cache.delete(cache_key)
